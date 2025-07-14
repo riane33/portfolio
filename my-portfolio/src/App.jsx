@@ -98,6 +98,11 @@ function App() {
   const goToPrevSlide = () => setCurrentSlide((prev) => (prev === 0 ? carouselSlides.length - 1 : prev - 1));
   const goToNextSlide = () => setCurrentSlide((prev) => (prev === carouselSlides.length - 1 ? 0 : prev + 1));
 
+  // Certificates modal state
+  const [certModalOpen, setCertModalOpen] = useState(false);
+  // State for zoomed certificate image
+  const [zoomedCert, setZoomedCert] = useState(null);
+
   // Prevent background scroll when modal is open
   useEffect(() => {
     if (modalOpen) {
@@ -315,6 +320,51 @@ function App() {
             <h1 className="text-6xl font-bold mb-4 text-main">Riane Michael D. Rivera</h1>
             <h2 className="text-4xl font-bold text-accent mb-8">INFORMATION TECHNOLOGY STUDENT</h2>
             <p className="text-lg text-main max-w-2xl mx-auto">I am Riane Michael D. Rivera, an Information Technology Student from Mapua Malayan Colleges Laguna. I am a passionate and dedicated student who is always looking for new challenges and opportunities to grow. I am a quick learner and I am always looking for new ways to improve my skills.</p>
+            <div className="mt-8 flex flex-row gap-4 justify-center items-center">
+              <button
+                className="px-8 py-3 rounded-full bg-accent text-main font-bold text-lg shadow-md hover:bg-accent-sky hover:text-accent transition-colors duration-200"
+                onClick={() => setCertModalOpen(true)}
+              >
+                View certificates
+              </button>
+              <button
+                className="px-8 py-3 rounded-full bg-accent text-main font-bold text-lg shadow-md hover:bg-accent-sky hover:text-accent transition-colors duration-200"
+                onClick={() => { setActiveTab(3); setActiveFinalReportTab(null); }}
+              >
+                Connect with me
+              </button>
+            </div>
+            {certModalOpen && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
+                <div className="bg-main rounded-2xl p-12 max-w-[95vw] w-full relative flex flex-col items-center">
+                  <button
+                    className="absolute top-4 right-4 text-2xl text-accent hover:text-accent-sky focus:outline-none"
+                    onClick={() => setCertModalOpen(false)}
+                    aria-label="Close"
+                  >
+                    &times;
+                  </button>
+                  <h3 className="text-2xl font-bold mb-6 text-main text-center">Certificates</h3>
+                  <div className="flex flex-row gap-8 items-center justify-center w-full pb-2">
+                    <img src="/Certificates/Image.jpg" alt="Certificate 1" className="max-w-md max-h-[80vh] rounded-lg shadow-md object-contain bg-white p-2 cursor-zoom-in" onClick={() => setZoomedCert('/Certificates/Image.jpg')} />
+                    <img src="/Certificates/image2.png" alt="Certificate 2" className="max-w-md max-h-[80vh] rounded-lg shadow-md object-contain bg-white p-2 cursor-zoom-in" onClick={() => setZoomedCert('/Certificates/image2.png')} />
+                    <img src="/Certificates/image1.png" alt="Certificate 3" className="max-w-md max-h-[80vh] rounded-lg shadow-md object-contain bg-white p-2 cursor-zoom-in" onClick={() => setZoomedCert('/Certificates/image1.png')} />
+                  </div>
+                  {zoomedCert && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80" onClick={() => setZoomedCert(null)}>
+                      <img src={zoomedCert} alt="Zoomed certificate" className="max-w-4xl max-h-[90vh] rounded-2xl shadow-2xl object-contain border-4 border-accent bg-white" onClick={e => e.stopPropagation()} />
+                      <button
+                        className="absolute top-8 right-8 text-3xl text-accent hover:text-accent-sky focus:outline-none bg-white bg-opacity-80 rounded-full px-3 py-1"
+                        onClick={() => setZoomedCert(null)}
+                        aria-label="Close zoomed image"
+                      >
+                        &times;
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         )}
         {activeTab === 1 && activeFinalReportTab === null && (
@@ -379,18 +429,41 @@ function App() {
         {activeTab === 3 && activeFinalReportTab === null && (
           <div className="w-full flex flex-col items-center justify-center">
             <h2 className="text-3xl font-bold mb-6 text-main text-center">Let's connect</h2>
-            <p className="text-lg text-main max-w-2xl mx-auto">[Add your contact information, social links, or a contact form here]</p>
+            <ul className="flex flex-col gap-6 text-lg text-main max-w-xl mx-auto w-full">
+              <li className="flex items-center gap-4">
+                <span role="img" aria-label="GitHub" className="text-2xl">🐙</span>
+                <a href="https://github.com/your-github-username" target="_blank" rel="noopener noreferrer" className="hover:text-accent underline">https://github.com/riane33</a>
+              </li>
+              <li className="flex items-center gap-4">
+                <span role="img" aria-label="Email" className="text-2xl">✉️</span>
+                <a href="mailto:sample@email.com" className="hover:text-accent underline">riane12345.rivera@gmail.com</a>
+              </li>
+              <li className="flex items-center gap-4">
+                <span role="img" aria-label="Cellphone" className="text-2xl">📱</span>
+                <span>+63 966 619 4247</span>
+              </li>
+              <li className="flex items-center gap-4">
+                <span role="img" aria-label="LinkedIn" className="text-2xl">🔗</span>
+                <a href="https://www.linkedin.com/in/your-linkedin-username" target="_blank" rel="noopener noreferrer" className="hover:text-accent underline">www.linkedin.com/in/riane-rivera-0o33</a>
+              </li>
+            </ul>
           </div>
         )}
         {/* Final Report Tabs */}
         {activeFinalReportTab === 0 && (
           <div className="w-full flex flex-col items-center justify-center">
             <h2 className="text-3xl font-bold mb-6 text-main text-center">Final Report Document</h2>
-            <p className="text-lg text-main max-w-2xl mx-auto">[Add your final report document content here]</p>
+            <a
+              href="/Final_Report.pdf"
+              download
+              className="mt-6 px-8 py-3 rounded-full bg-accent text-main font-bold text-lg shadow-md hover:bg-accent-sky hover:text-accent transition-colors duration-200"
+            >
+              Download Final Report
+            </a>
+            <p className="text-lg text-main max-w-2xl mx-auto mt-6">[Add your final report document content here]</p>
           </div>
         )}
       </main>
-      {/* Right vertical tab navigation removed */}
     </div>
   );
 }
