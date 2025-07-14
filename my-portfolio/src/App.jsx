@@ -5,7 +5,6 @@ const tabs = [
   { name: 'About me'},
   { name: 'Projects'},
   { name: 'Programs used'},
-  { name: "Let's connect"},
 ];
 
 const finalReportTabs = [
@@ -102,6 +101,22 @@ function App() {
   const [certModalOpen, setCertModalOpen] = useState(false);
   // State for zoomed certificate image
   const [zoomedCert, setZoomedCert] = useState(null);
+
+  // Sidebar email popup state
+  const [emailPopupOpen, setEmailPopupOpen] = useState(false);
+  const emailIconRef = useRef(null);
+
+  // Close email popup when clicking outside
+  useEffect(() => {
+    if (!emailPopupOpen) return;
+    function handleClick(e) {
+      if (emailIconRef.current && !emailIconRef.current.contains(e.target)) {
+        setEmailPopupOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, [emailPopupOpen]);
 
   // Prevent background scroll when modal is open
   useEffect(() => {
@@ -232,12 +247,6 @@ function App() {
       active: activeTab === 2 && activeFinalReportTab === null,
     },
     {
-      label: "Let's connect",
-      icon: '/icons/contact.png',
-      onClick: () => { setActiveTab(3); setActiveFinalReportTab(null); },
-      active: activeTab === 3 && activeFinalReportTab === null,
-    },
-    {
       label: 'Document',
       icon: '/icons/about_me.png',
       onClick: () => { setActiveTab(null); setActiveFinalReportTab(0); },
@@ -256,7 +265,21 @@ function App() {
           <div className="w-24 h-24 rounded-full bg-accent-sky mb-3 overflow-hidden flex items-center justify-center">
             <img src="/icons/Riane_Pic.png" alt="Riane Rivera" className="w-full h-full object-cover" />
           </div>
-          <div className="text-accent text-xl font-bold text-center">Riane Rivera</div>
+          <div className="text-accent text-xl font-bold text-center mb-3">Riane Rivera</div>
+          <div className="flex flex-row gap-2">
+            <a href="https://www.facebook.com/riane.rivera/" target="_blank" rel="noopener noreferrer" className="block w-9 h-9 rounded-full overflow-hidden border-2 border-accent hover:border-accent-sky transition-all duration-200">
+              <img src="/Connect/FB.png" alt="Facebook" className="w-full h-full object-cover" />
+            </a>
+            <a href="https://github.com/riane33" target="_blank" rel="noopener noreferrer" className="block w-9 h-9 rounded-full overflow-hidden border-2 border-accent hover:border-accent-sky transition-all duration-200">
+              <img src="/Connect/GH.png" alt="GitHub" className="w-full h-full object-cover" />
+            </a>
+            <a href="https://www.linkedin.com/in/riane-rivera-0o33/" target="_blank" rel="noopener noreferrer" className="block w-9 h-9 rounded-full overflow-hidden border-2 border-accent hover:border-accent-sky transition-all duration-200">
+              <img src="/Connect/IN.png" alt="LinkedIn" className="w-full h-full object-cover" />
+            </a>
+            <a href="mailto:riane12345.rivera@gmail.com" target="_blank" rel="noopener noreferrer" className="block w-9 h-9 rounded-full overflow-hidden border-2 border-accent hover:border-accent-sky transition-all duration-200">
+              <img src="/Connect/GM.png" alt="G-mail" className="w-full h-full object-cover" />
+            </a>
+          </div>
         </div>
         <nav className="flex flex-col mt-4 space-y-1">
           {/* MY-PORTFOLIO tree */}
@@ -298,9 +321,6 @@ function App() {
                   )}
                   {tab.name === 'Programs used' && (
                     <img src="/icons/programs.png" alt="Programs used icon" className="w-8 h-8 inline-block mr-1 -ml-2" />
-                  )}
-                  {tab.name === "Let's connect" && (
-                    <img src="/icons/contact.png" alt="Let's connect icon" className="w-10 h-10 inline-block mr-1 -ml-2" />
                   )}
                   <span>{tab.name}</span>
                 </button>
@@ -352,7 +372,7 @@ function App() {
         {activeTab === 0 && activeFinalReportTab === null && (
           <div className="text-center w-full">
             <h1 className="text-6xl font-bold mb-4 text-main">Riane Michael D. Rivera</h1>
-            <h2 className="text-4xl font-bold text-accent mb-8">INFORMATION TECHNOLOGY STUDENT</h2>
+            <h2 className="text-4xl font-bold text-accent mb-8">INFORMATION TECHNOLOGY</h2>
             <p className="text-lg text-main max-w-2xl mx-auto">I am Riane Michael D. Rivera, an Information Technology Student from Mapua Malayan Colleges Laguna. I am a passionate and dedicated student who is always looking for new challenges and opportunities to grow. I am a quick learner and I am always looking for new ways to improve my skills.</p>
             <div className="mt-8 flex flex-row gap-4 justify-center items-center">
               <button
@@ -360,12 +380,6 @@ function App() {
                 onClick={() => setCertModalOpen(true)}
               >
                 View certificates
-              </button>
-              <button
-                className="px-8 py-3 rounded-full bg-accent text-main font-bold text-lg shadow-md hover:bg-accent-sky hover:text-accent transition-colors duration-200"
-                onClick={() => { setActiveTab(3); setActiveFinalReportTab(null); }}
-              >
-                Connect with me
               </button>
             </div>
             {certModalOpen && (
@@ -457,29 +471,6 @@ function App() {
               <li className="flex items-center gap-3"><span role="img" aria-label="PHPMyAdmin">🐘</span> PHPMyAdmin</li>
               <li className="flex items-center gap-3"><span role="img" aria-label="ASP.NET">🌐</span> ASP.NET</li>
               <li className="flex items-center gap-3"><span role="img" aria-label=".NET">💠</span> .NET</li>
-            </ul>
-          </div>
-        )}
-        {activeTab === 3 && activeFinalReportTab === null && (
-          <div className="w-full flex flex-col items-center justify-center">
-            <h2 className="text-3xl font-bold mb-6 text-main text-center">Let's connect</h2>
-            <ul className="flex flex-col gap-6 text-lg text-main max-w-xl mx-auto w-full">
-              <li className="flex items-center gap-4">
-                <span role="img" aria-label="GitHub" className="text-2xl">🐙</span>
-                <a href=">https://github.com/riane33" target="_blank" rel="noopener noreferrer" className="hover:text-accent underline">https://github.com/riane33</a>
-              </li>
-              <li className="flex items-center gap-4">
-                <span role="img" aria-label="Email" className="text-2xl">✉️</span>
-                <a href="mailto:sample@email.com" className="hover:text-accent underline">riane12345.rivera@gmail.com</a>
-              </li>
-              <li className="flex items-center gap-4">
-                <span role="img" aria-label="Cellphone" className="text-2xl">📱</span>
-                <span>+63 966 619 4247</span>
-              </li>
-              <li className="flex items-center gap-4">
-                <span role="img" aria-label="LinkedIn" className="text-2xl">🔗</span>
-                <a href="https://www.linkedin.com/in/riane-rivera-0o33/" target="_blank" rel="noopener noreferrer" className="hover:text-accent underline">www.linkedin.com/in/riane-rivera</a>
-              </li>
             </ul>
           </div>
         )}
