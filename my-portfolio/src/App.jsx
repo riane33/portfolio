@@ -211,6 +211,40 @@ function App() {
     );
   }
 
+  // Header tab definitions (with icons)
+  const headerTabs = [
+    {
+      label: 'About me',
+      icon: '/icons/about_me.png',
+      onClick: () => { setActiveTab(0); setActiveFinalReportTab(null); },
+      active: activeTab === 0 && activeFinalReportTab === null,
+    },
+    {
+      label: 'Projects',
+      icon: '/icons/projects.png',
+      onClick: () => { setActiveTab(1); setActiveFinalReportTab(null); },
+      active: activeTab === 1 && activeFinalReportTab === null,
+    },
+    {
+      label: 'Programs used',
+      icon: '/icons/programs.png',
+      onClick: () => { setActiveTab(2); setActiveFinalReportTab(null); },
+      active: activeTab === 2 && activeFinalReportTab === null,
+    },
+    {
+      label: "Let's connect",
+      icon: '/icons/contact.png',
+      onClick: () => { setActiveTab(3); setActiveFinalReportTab(null); },
+      active: activeTab === 3 && activeFinalReportTab === null,
+    },
+    {
+      label: 'Document',
+      icon: '/icons/about_me.png',
+      onClick: () => { setActiveTab(null); setActiveFinalReportTab(0); },
+      active: activeFinalReportTab === 0,
+    },
+  ];
+
   return (
     <div className="min-h-screen w-full flex flex-col bg-main relative overflow-hidden">
       {/* Matrix Code Rain Background */}
@@ -220,7 +254,7 @@ function App() {
         {/* Profile section */}
         <div className="flex flex-col items-center justify-center pt-8 pb-6 px-4">
           <div className="w-24 h-24 rounded-full bg-accent-sky mb-3 overflow-hidden flex items-center justify-center">
-            <img src="/Riane_Pic.png" alt="Riane Rivera" className="w-full h-full object-cover" />
+            <img src="/icons/Riane_Pic.png" alt="Riane Rivera" className="w-full h-full object-cover" />
           </div>
           <div className="text-accent text-xl font-bold text-center">Riane Rivera</div>
         </div>
@@ -255,18 +289,18 @@ function App() {
                   style={activeTab === idx && activeFinalReportTab === null ? { background: '#232531', color: '#fff' } : {}}
                   onClick={() => { setActiveTab(idx); setActiveFinalReportTab(null); }}
                 >
-                  <img src="/tab.png" alt="Tab icon" className="w-6 h-6 inline-block mr-1 -ml-2" />
+                  <img src="/icons/tab.png" alt="Tab icon" className="w-6 h-6 inline-block mr-1 -ml-2" />
                   {tab.name === 'About me' && (
-                    <img src="/about_me.png" alt="About me icon" className="w-8 h-8 inline-block mr-1 -ml-2" />
+                    <img src="/icons/about_me.png" alt="About me icon" className="w-8 h-8 inline-block mr-1 -ml-2" />
                   )}
                   {tab.name === 'Projects' && (
-                    <img src="/projects.png" alt="Projects icon" className="w-8 h-8 inline-block mr-1 -ml-2" />
+                    <img src="/icons/projects.png" alt="Projects icon" className="w-8 h-8 inline-block mr-1 -ml-2" />
                   )}
                   {tab.name === 'Programs used' && (
-                    <img src="/programs.png" alt="Programs used icon" className="w-8 h-8 inline-block mr-1 -ml-2" />
+                    <img src="/icons/programs.png" alt="Programs used icon" className="w-8 h-8 inline-block mr-1 -ml-2" />
                   )}
                   {tab.name === "Let's connect" && (
-                    <img src="/contact.png" alt="Let's connect icon" className="w-10 h-10 inline-block mr-1 -ml-2" />
+                    <img src="/icons/contact.png" alt="Let's connect icon" className="w-10 h-10 inline-block mr-1 -ml-2" />
                   )}
                   <span>{tab.name}</span>
                 </button>
@@ -303,8 +337,8 @@ function App() {
                     style={activeFinalReportTab === idx ? { background: '#232531', color: '#fff' } : {}}
                     onClick={() => { setActiveFinalReportTab(idx); setActiveTab(null); }}
                   >
-                    <img src="/tab.png" alt="Tab icon" className="w-6 h-6 inline-block mr-1 -ml-2" />
-                    <img src="/about_me.png" alt="Document icon" className="w-8 h-8 inline-block mr-1 -ml-2" />
+                    <img src="/icons/tab.png" alt="Tab icon" className="w-6 h-6 inline-block mr-1 -ml-2" />
+                    <img src="/icons/about_me.png" alt="Document icon" className="w-8 h-8 inline-block mr-1 -ml-2" />
                     <span>{tab.name}</span>
                   </button>
                 ))}
@@ -432,7 +466,7 @@ function App() {
             <ul className="flex flex-col gap-6 text-lg text-main max-w-xl mx-auto w-full">
               <li className="flex items-center gap-4">
                 <span role="img" aria-label="GitHub" className="text-2xl">🐙</span>
-                <a href="https://github.com/your-github-username" target="_blank" rel="noopener noreferrer" className="hover:text-accent underline">https://github.com/riane33</a>
+                <a href=">https://github.com/riane33" target="_blank" rel="noopener noreferrer" className="hover:text-accent underline">https://github.com/riane33</a>
               </li>
               <li className="flex items-center gap-4">
                 <span role="img" aria-label="Email" className="text-2xl">✉️</span>
@@ -444,7 +478,7 @@ function App() {
               </li>
               <li className="flex items-center gap-4">
                 <span role="img" aria-label="LinkedIn" className="text-2xl">🔗</span>
-                <a href="https://www.linkedin.com/in/your-linkedin-username" target="_blank" rel="noopener noreferrer" className="hover:text-accent underline">www.linkedin.com/in/riane-rivera-0o33</a>
+                <a href="https://www.linkedin.com/in/riane-rivera-0o33/" target="_blank" rel="noopener noreferrer" className="hover:text-accent underline">www.linkedin.com/in/riane-rivera</a>
               </li>
             </ul>
           </div>
