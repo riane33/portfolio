@@ -20,6 +20,7 @@ function App() {
 
   // Sidebar expand/collapse state
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Navigation tree state for MY-PORTFOLIO
   const [portfolioOpen, setPortfolioOpen] = useState(true); // open by default
@@ -270,8 +271,35 @@ function App() {
     <div className="min-h-screen w-full flex flex-col relative overflow-hidden">
       {/* Starfield Background */}
       <StarfieldBackground />
+      {/* Hamburger menu for mobile */}
+      <button
+        className="md:hidden fixed top-4 left-4 z-40 bg-accent text-main rounded-full p-2 shadow-lg focus:outline-none"
+        onClick={() => setSidebarOpen(true)}
+        aria-label="Open sidebar"
+        style={{ display: sidebarOpen ? 'none' : 'block' }}
+      >
+        <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+      {/* Sidebar overlay for mobile */}
+      {sidebarOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 z-30 md:hidden" onClick={() => setSidebarOpen(false)}></div>
+      )}
       {/* Left vertical tab navigation */}
-      <aside className="h-screen w-64 bg-secondary flex flex-col justify-start items-stretch fixed top-0 left-0 z-20">
+      <aside
+        className={`h-screen w-64 bg-secondary flex flex-col items-stretch fixed top-0 left-0 z-40 transition-transform duration-300
+          ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 md:block`}
+        style={{ minHeight: '100vh' }}
+      >
+        {/* Close button for mobile */}
+        <button
+          className="md:hidden absolute top-4 right-4 text-accent text-3xl focus:outline-none"
+          onClick={() => setSidebarOpen(false)}
+          aria-label="Close sidebar"
+        >
+          &times;
+        </button>
         {/* Profile section */}
         <div className="flex flex-col items-center justify-center pt-8 pb-6 px-4">
           <div className="w-24 h-24 rounded-full bg-accent-sky mb-3 overflow-hidden flex items-center justify-center">
@@ -293,7 +321,7 @@ function App() {
             </a>
           </div>
         </div>
-        <nav className="flex flex-col mt-4 space-y-1">
+        <nav className="flex-1 flex flex-col mt-4 space-y-1">
           {/* MY-PORTFOLIO tree */}
           <button
             className="flex items-center justify-start text-lg font-bold text-main mb-2 tracking-widest px-2 focus:outline-none select-none w-full"
@@ -377,26 +405,35 @@ function App() {
               </div>
             )}
         </nav>
+        {/* Sidebar Footer (credits) */}
+        <div className="w-full pb-4 flex flex-col items-center absolute bottom-0 left-0">
+          <div className="text-xs text-gray-400 text-center leading-tight">
+            &copy; 2025 Riane Michael D. Rivera<br/>
+            <span className="italic">Don't stop now, we have a dream to catch</span>
+          </div>
+        </div>
       </aside>
       {/* Main content area */}
-      <main className="flex-1 flex flex-col p-8 ml-64">
+      <main className="flex-1 flex flex-col p-8 ml-0 md:ml-64">
         {/* Main Portfolio Tabs */}
         {activeTab === 0 && activeFinalReportTab === null && (
-          <div className="text-center w-full flex flex-col items-center justify-center min-h-[70vh]">
-            <h1 className="text-6xl font-bold mb-4 text-main">Riane Michael D. Rivera</h1>
-            <h2 className="text-4xl font-bold text-accent mb-8">INFORMATION TECHNOLOGY</h2>
-            <p className="text-lg text-main max-w-2xl mx-auto">I am Riane Michael D. Rivera, an Information Technology Student from Mapua Malayan Colleges Laguna. I am a passionate and dedicated student who is always looking for new challenges and opportunities to grow. I am a quick learner and I am always looking for new ways to improve my skills.</p>
-            <div className="mt-20 flex flex-row gap-4 justify-center items-center">
+          <div className="w-full min-h-[80vh] flex flex-col justify-center items-center px-2 text-center">
+            <div className="w-full flex flex-col items-center justify-center text-center">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 text-main">Riane Michael D. Rivera</h1>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-accent mb-8">INFORMATION TECHNOLOGY</h2>
+              <p className="text-base sm:text-lg text-main max-w-2xl mx-auto text-center">I am Riane Michael D. Rivera, an Information Technology Student from Mapua Malayan Colleges Laguna. I am a passionate and dedicated student who is always looking for new challenges and opportunities to grow. I am a quick learner and I am always looking for new ways to improve my skills.</p>
+            </div>
+            <div className="mt-20 flex flex-col sm:flex-row gap-4 justify-center items-center w-full max-w-xl mx-auto">
               <button
-                className="px-8 py-3 rounded-full bg-accent text-main font-bold text-lg shadow-md hover:bg-accent-sky hover:text-accent transition-colors duration-200"
+                className="w-full sm:w-56 py-3 rounded-full bg-accent text-main font-bold text-lg shadow-md hover:bg-accent-sky hover:text-accent transition-colors duration-200"
                 onClick={() => setCertModalOpen(true)}
               >
-                View certificates
+                View Certificates
               </button>
               <a
                 href="/docs/CV.pdf"
                 download
-                className="px-8 py-3 rounded-full bg-accent text-main font-bold text-lg shadow-md hover:bg-accent-sky hover:text-accent transition-colors duration-200"
+                className="w-full sm:w-56 py-3 rounded-full bg-accent text-main font-bold text-lg shadow-md hover:bg-accent-sky hover:text-accent transition-colors duration-200 text-center flex items-center justify-center"
               >
                 Download CV
               </a>
@@ -437,41 +474,23 @@ function App() {
         {activeTab === 1 && activeFinalReportTab === null && (
           <div className="w-full flex flex-col items-center justify-center">
             <h2 className="text-3xl font-bold mb-6 text-main text-center">Projects</h2>
-            <div
-              className="relative w-full max-w-4xl h-[60vh] rounded-2xl flex flex-col items-center justify-center transition-colors duration-200 bg-[#48a9d1] p-8"
-              style={{ boxShadow: '0px 4px 10px rgba(0,0,0,0.15)' }}
-            >
-              <div className="flex-1 flex flex-col items-center justify-center w-full h-full">
-                <div className="flex flex-col items-center justify-center w-full">
-                  <div className="mb-8 flex items-center justify-center w-full">
-                    {carouselSlides[currentSlide].image ? (
-                      <img src={carouselSlides[currentSlide].image} alt={`Project ${carouselSlides[currentSlide].number}`} className="max-h-[40vh] max-w-full rounded-2xl shadow-lg object-contain p-2 bg-white" style={{background:'#fff'}} />
-                    ) : (
-                      <span className="text-8xl font-bold" style={{ color: '#fff' }}>{carouselSlides[currentSlide].number}</span>
-                    )}
+            <div className="w-full max-w-7xl flex flex-col items-center justify-start gap-16 py-12 px-2">
+              {carouselSlides.map((slide, idx) => (
+                <div key={idx} className="w-full max-w-5xl min-h-[440px] flex flex-col md:flex-row items-stretch bg-white rounded-2xl shadow-lg p-0 mb-8 overflow-hidden">
+                  <div className="flex-1 flex flex-col justify-center items-start p-4 sm:p-8">
+                    <h3 className="text-xl sm:text-2xl font-bold mb-4 text-accent">Project {slide.number}</h3>
+                    <p className="text-base sm:text-lg text-accent mb-2">{slide.description}</p>
                   </div>
-                  <div className="text-xl text-center px-8 max-w-2xl bg-opacity-80" style={{ color: '#fff' }}>
-                    {carouselSlides[currentSlide].description}
+                  <div className="w-full md:w-[500px] flex items-center justify-center bg-accent" style={{minHeight: '320px'}}>
+                    <img
+                      src={slide.image}
+                      alt={`Project ${slide.number}`}
+                      className="w-full max-w-[320px] sm:max-w-[460px] max-h-[320px] sm:max-h-[400px] h-[320px] sm:h-[400px] object-contain"
+                      style={{background:'transparent'}}
+                    />
                   </div>
                 </div>
-              </div>
-              {/* Carousel Arrows */}
-              <button
-                className="absolute left-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-70 hover:bg-opacity-100 rounded-full p-2 shadow-lg z-10"
-                style={{fontSize: '2rem'}}
-                onClick={goToPrevSlide}
-                aria-label="Previous slide"
-              >
-                <span aria-hidden="true" style={{ color: '#06b6d4' }}>&#8592;</span>
-              </button>
-              <button
-                className="absolute right-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-70 hover:bg-opacity-100 rounded-full p-2 shadow-lg z-10"
-                style={{fontSize: '2rem'}}
-                onClick={goToNextSlide}
-                aria-label="Next slide"
-              >
-                <span aria-hidden="true" style={{ color: '#06b6d4' }}>&#8594;</span>
-              </button>
+              ))}
             </div>
           </div>
         )}
@@ -500,13 +519,13 @@ function App() {
           <div className="w-full flex flex-col items-center justify-center">
             <h2 className="text-3xl font-bold mb-6 text-main text-center">Final Report Document</h2>
             <a
-              href="/Final_Report.pdf"
+              href="/docs/Final_Report.pdf"
               download
               className="mt-6 px-8 py-3 rounded-full bg-accent text-main font-bold text-lg shadow-md hover:bg-accent-sky hover:text-accent transition-colors duration-200"
             >
               Download Final Report
             </a>
-            <p className="text-lg text-main max-w-2xl mx-auto mt-6">[Add your final report document content here]</p>
+            <p className="text-lg text-main max-w-2xl mx-auto mt-6">Here is the Final Report regarding the whole experience of the practicum at Suhay, OPC</p>
           </div>
         )}
       </main>
