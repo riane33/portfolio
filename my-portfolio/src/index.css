@@ -10,7 +10,7 @@
 }
 
 body {
-  background: var(--bg-main);
+  background: transparent;
   color: var(--text-main);
   font-family: 'JetBrains Mono', monospace;
 }

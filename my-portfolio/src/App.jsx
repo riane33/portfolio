@@ -155,57 +155,69 @@ function App() {
     sectionRefs.current[idx].current.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  // Matrix code rain effect as a React component
-  function MatrixRain() {
-    const canvasRef = useRef(null);
-    const frameCount = useRef(0);
+  // Starfield background effect
+  function StarfieldBackground() {
+    const canvasRef = React.useRef(null);
 
-    useEffect(() => {
+    React.useEffect(() => {
       const canvas = canvasRef.current;
       const ctx = canvas.getContext('2d');
       let animationFrameId;
 
+      // Star class
+      class Star {
+        constructor() {
+          this.reset();
+        }
+        reset() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.z = Math.random() * canvas.width;
+          this.radius = Math.random() * 1.2 + 0.2;
+          this.speed = Math.random() * 1.5 + 0.5;
+        }
+        update() {
+          this.z -= this.speed;
+          if (this.z <= 0) this.reset();
+        }
+        draw() {
+          const sx = (this.x - canvas.width / 2) * (canvas.width / this.z) + canvas.width / 2;
+          const sy = (this.y - canvas.height / 2) * (canvas.width / this.z) + canvas.height / 2;
+          const r = this.radius * (canvas.width / this.z);
+          ctx.beginPath();
+          ctx.arc(sx, sy, r, 0, Math.PI * 2);
+          ctx.fillStyle = '#fff';
+          ctx.globalAlpha = 0.8;
+          ctx.shadowColor = '#fff';
+          ctx.shadowBlur = 8;
+          ctx.fill();
+          ctx.globalAlpha = 1;
+          ctx.shadowBlur = 0;
+        }
+      }
+
+      let stars = [];
       function resize() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
+        stars = Array.from({ length: 200 }, () => new Star());
       }
       resize();
       window.addEventListener('resize', resize);
 
-      const letters = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズヅブプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-      const fontSize = 18;
-      const columns = () => Math.floor(canvas.width / fontSize);
-      let drops = Array(columns()).fill(1);
-
-      function draw() {
-        ctx.fillStyle = 'rgba(30,30,47,0.15)';
+      function animate() {
+        ctx.fillStyle = 'rgba(30, 30, 47, 1)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.font = fontSize + 'px monospace';
-        ctx.fillStyle = '#00FF41';
-        frameCount.current++;
-        for (let i = 0; i < drops.length; i++) {
-          const text = letters[Math.floor(Math.random() * letters.length)];
-          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-          if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-            drops[i] = 0;
-          }
-          // Only increment drop every 6 frames for super slow effect
-          if (frameCount.current % 6 === 0) {
-            drops[i]++;
-          }
-        }
-        animationFrameId = requestAnimationFrame(draw);
+        stars.forEach(star => {
+          star.update();
+          star.draw();
+        });
+        animationFrameId = requestAnimationFrame(animate);
       }
-      draw();
-
-      function handleResize() {
-        drops = Array(columns()).fill(1);
-      }
-      window.addEventListener('resize', handleResize);
+      animate();
 
       return () => {
         window.removeEventListener('resize', resize);
-        window.removeEventListener('resize', handleResize);
         cancelAnimationFrame(animationFrameId);
       };
     }, []);
@@ -255,9 +267,9 @@ function App() {
   ];
 
   return (
-    <div className="min-h-screen w-full flex flex-col bg-main relative overflow-hidden">
-      {/* Matrix Code Rain Background */}
-      <MatrixRain />
+    <div className="min-h-screen w-full flex flex-col relative overflow-hidden">
+      {/* Starfield Background */}
+      <StarfieldBackground />
       {/* Left vertical tab navigation */}
       <aside className="h-screen w-64 bg-secondary flex flex-col justify-start items-stretch fixed top-0 left-0 z-20">
         {/* Profile section */}
@@ -370,17 +382,24 @@ function App() {
       <main className="flex-1 flex flex-col p-8 ml-64">
         {/* Main Portfolio Tabs */}
         {activeTab === 0 && activeFinalReportTab === null && (
-          <div className="text-center w-full">
+          <div className="text-center w-full flex flex-col items-center justify-center min-h-[70vh]">
             <h1 className="text-6xl font-bold mb-4 text-main">Riane Michael D. Rivera</h1>
             <h2 className="text-4xl font-bold text-accent mb-8">INFORMATION TECHNOLOGY</h2>
             <p className="text-lg text-main max-w-2xl mx-auto">I am Riane Michael D. Rivera, an Information Technology Student from Mapua Malayan Colleges Laguna. I am a passionate and dedicated student who is always looking for new challenges and opportunities to grow. I am a quick learner and I am always looking for new ways to improve my skills.</p>
-            <div className="mt-8 flex flex-row gap-4 justify-center items-center">
+            <div className="mt-20 flex flex-row gap-4 justify-center items-center">
               <button
                 className="px-8 py-3 rounded-full bg-accent text-main font-bold text-lg shadow-md hover:bg-accent-sky hover:text-accent transition-colors duration-200"
                 onClick={() => setCertModalOpen(true)}
               >
                 View certificates
               </button>
+              <a
+                href="/docs/CV.pdf"
+                download
+                className="px-8 py-3 rounded-full bg-accent text-main font-bold text-lg shadow-md hover:bg-accent-sky hover:text-accent transition-colors duration-200"
+              >
+                Download CV
+              </a>
             </div>
             {certModalOpen && (
               <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
@@ -394,9 +413,9 @@ function App() {
                   </button>
                   <h3 className="text-2xl font-bold mb-6 text-main text-center">Certificates</h3>
                   <div className="flex flex-row gap-8 items-center justify-center w-full pb-2">
-                    <img src="/Certificates/Image.jpg" alt="Certificate 1" className="max-w-md max-h-[80vh] rounded-lg shadow-md object-contain bg-white p-2 cursor-zoom-in" onClick={() => setZoomedCert('/Certificates/Image.jpg')} />
-                    <img src="/Certificates/image2.png" alt="Certificate 2" className="max-w-md max-h-[80vh] rounded-lg shadow-md object-contain bg-white p-2 cursor-zoom-in" onClick={() => setZoomedCert('/Certificates/image2.png')} />
-                    <img src="/Certificates/image1.png" alt="Certificate 3" className="max-w-md max-h-[80vh] rounded-lg shadow-md object-contain bg-white p-2 cursor-zoom-in" onClick={() => setZoomedCert('/Certificates/image1.png')} />
+                    <img src="/Certificates/Image.jpg" alt="Certificate 1" className="w-80 h-96 rounded-lg shadow-md object-contain bg-accent p-2 cursor-zoom-in" onClick={() => setZoomedCert('/Certificates/Image.jpg')} />
+                    <img src="/Certificates/image2.png" alt="Certificate 2" className="w-80 h-96 rounded-lg shadow-md object-contain bg-accent p-2 cursor-zoom-in" onClick={() => setZoomedCert('/Certificates/image2.png')} />
+                    <img src="/Certificates/image1.png" alt="Certificate 3" className="w-80 h-96 rounded-lg shadow-md object-contain bg-accent p-2 cursor-zoom-in" onClick={() => setZoomedCert('/Certificates/image1.png')} />
                   </div>
                   {zoomedCert && (
                     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80" onClick={() => setZoomedCert(null)}>
@@ -459,18 +478,20 @@ function App() {
         {activeTab === 2 && activeFinalReportTab === null && (
           <div className="w-full flex flex-col items-center justify-center">
             <h2 className="text-3xl font-bold mb-6 text-main text-center">Programs used</h2>
-            <ul className="grid grid-cols-2 sm:grid-cols-3 gap-6 text-lg text-main max-w-3xl mx-auto">
-              <li className="flex items-center gap-3"><span role="img" aria-label="React">⚛️</span> React + Vite</li>
-              <li className="flex items-center gap-3"><span role="img" aria-label="Laravel">🅻</span> Laravel</li>
-              <li className="flex items-center gap-3"><span role="img" aria-label="SQL Server">🗄️</span> SSMS 2021</li>
-              <li className="flex items-center gap-3"><span role="img" aria-label="Python">🐍</span> Python</li>
-              <li className="flex items-center gap-3"><span role="img" aria-label="MS Access">🗃️</span> MS Access</li>
-              <li className="flex items-center gap-3"><span role="img" aria-label="C#">#️⃣</span> C#</li>
-              <li className="flex items-center gap-3"><span role="img" aria-label="C++">➕➕</span> C++</li>
-              <li className="flex items-center gap-3"><span role="img" aria-label="XAMPP">🦄</span> XAMPP</li>
-              <li className="flex items-center gap-3"><span role="img" aria-label="PHPMyAdmin">🐘</span> PHPMyAdmin</li>
-              <li className="flex items-center gap-3"><span role="img" aria-label="ASP.NET">🌐</span> ASP.NET</li>
-              <li className="flex items-center gap-3"><span role="img" aria-label=".NET">💠</span> .NET</li>
+            <ul className="grid grid-cols-2 sm:grid-cols-3 gap-8 text-2xl text-main max-w-3xl mx-auto">
+              <li className="flex items-center gap-4"><span style={{fontSize: '2.2em'}} role="img" aria-label="React">⚛️</span> React + Vite</li>
+              <li className="flex items-center gap-4"><span style={{fontSize: '2.2em'}} role="img" aria-label="Laravel">🅻</span> Laravel</li>
+              <li className="flex items-center gap-4"><span style={{fontSize: '2.2em'}} role="img" aria-label="SQL Server">🗄️</span> SSMS 2021</li>
+              <li className="flex items-center gap-4"><span style={{fontSize: '2.2em'}} role="img" aria-label="Python">🐍</span> Python</li>
+              <li className="flex items-center gap-4"><span style={{fontSize: '2.2em'}} role="img" aria-label="MS Access">🗃️</span> MS Access</li>
+              <li className="flex items-center gap-4"><span style={{fontSize: '2.2em'}} role="img" aria-label="C#">#️⃣</span> C#</li>
+              <li className="flex items-center gap-4"><span style={{fontSize: '2.2em'}} role="img" aria-label="C++">➕➕</span> C++</li>
+              <li className="flex items-center gap-4"><span style={{fontSize: '2.2em'}} role="img" aria-label="XAMPP">🦄</span> XAMPP</li>
+              <li className="flex items-center gap-4"><span style={{fontSize: '2.2em'}} role="img" aria-label="PHPMyAdmin">🐘</span> PHPMyAdmin</li>
+              <li className="flex items-center gap-4"><span style={{fontSize: '2.2em'}} role="img" aria-label="ASP.NET">🌐</span> ASP.NET</li>
+              <li className="flex items-center gap-4"><span style={{fontSize: '2.2em'}} role="img" aria-label=".NET">💠</span> .NET</li>
+              <li className="flex items-center gap-4"><span style={{fontSize: '2.2em'}} role="img" aria-label="VS Code">🖥️</span> VS Code</li>
+              <li className="flex items-center gap-4"><span style={{fontSize: '2.2em'}} role="img" aria-label="Arduino">🔌</span> Arduino</li>
             </ul>
           </div>
         )}
