@@ -520,24 +520,67 @@ function App() {
           </div>
         )}
         {activeTab === 2 && activeFinalReportTab === null && (
-          <div className="w-full flex flex-col items-center justify-center">
-            <h2 className="text-3xl font-bold mb-6 text-main text-center">Projects</h2>
-            <div className="w-full max-w-7xl flex flex-col items-center justify-start gap-16 py-12 px-2">
-              {carouselSlides.map((slide, idx) => (
-                <div key={idx} className="w-full max-w-5xl min-h-[440px] flex flex-col md:flex-row items-stretch bg-white rounded-2xl shadow-lg p-0 mb-8 overflow-hidden">
-                  <div className="flex-1 flex flex-col justify-center items-start p-4 sm:p-8">
-                    <h3 className="text-xl sm:text-2xl font-bold mb-4 text-accent">{slide.name}</h3>
-                    <p className="text-base sm:text-lg text-accent mb-2">{slide.description}</p>
-                  </div>
-                  <div className="w-full md:w-[500px] flex items-center justify-center bg-accent" style={{minHeight: '320px'}}>
-                    <img
-                      src={slide.image}
-                      alt={`Project ${slide.number}`}
-                      className="w-full max-w-[320px] sm:max-w-[460px] max-h-[320px] sm:max-h-[400px] h-[320px] sm:h-[400px] object-contain"
-                      style={{background:'transparent'}}
-                    />
+          <div className="w-full h-full flex flex-col items-center justify-center py-4">
+            <h2 className="text-4xl font-bold mb-6 text-main text-center">Projects</h2>
+            
+            {/* Full-Screen Carousel Container */}
+            <div className="relative w-full max-w-7xl mx-auto px-6 flex-1 flex items-center">
+              {/* Current Project Display */}
+              <div className="w-full h-[70vh] flex flex-col lg:flex-row items-stretch bg-white rounded-3xl shadow-2xl overflow-hidden">
+                <div className="flex-1 flex flex-col justify-center items-start p-8 lg:p-12">
+                  <h3 className="text-3xl lg:text-4xl font-bold mb-6" style={{color: '#333333'}}>{carouselSlides[currentSlide].name}</h3>
+                  <p className="text-lg lg:text-xl mb-8 leading-relaxed" style={{color: '#333333'}}>{carouselSlides[currentSlide].description}</p>
+                  
+                  {/* Project Counter */}
+                  <div className="text-base font-semibold" style={{color: '#333333'}}>
+                    Project {currentSlide + 1} of {carouselSlides.length}
                   </div>
                 </div>
+                <div className="w-full lg:w-[600px] flex items-center justify-center bg-accent" style={{minHeight: '500px'}}>
+                  <img
+                    src={carouselSlides[currentSlide].image}
+                    alt={carouselSlides[currentSlide].name}
+                    className="w-full max-w-[500px] lg:max-w-[550px] max-h-[450px] lg:max-h-[500px] h-[450px] lg:h-[500px] object-contain"
+                    style={{background:'transparent'}}
+                  />
+                </div>
+              </div>
+              
+              {/* Navigation Buttons */}
+              <button
+                onClick={goToPrevSlide}
+                className="absolute -left-16 top-1/2 transform -translate-y-1/2 bg-accent hover:bg-accent-sky text-main p-4 rounded-full shadow-xl transition-all duration-200 hover:scale-110 z-10"
+                aria-label="Previous project"
+              >
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              
+              <button
+                onClick={goToNextSlide}
+                className="absolute -right-16 top-1/2 transform -translate-y-1/2 bg-accent hover:bg-accent-sky text-main p-4 rounded-full shadow-xl transition-all duration-200 hover:scale-110 z-10"
+                aria-label="Next project"
+              >
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+            
+            {/* Carousel Indicators */}
+            <div className="flex space-x-3 mt-8">
+              {carouselSlides.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentSlide(idx)}
+                  className={`w-4 h-4 rounded-full transition-all duration-200 ${
+                    idx === currentSlide 
+                      ? 'bg-accent scale-125 shadow-lg' 
+                      : 'bg-accent-sky hover:bg-accent hover:scale-110'
+                  }`}
+                  aria-label={`Go to project ${idx + 1}`}
+                />
               ))}
             </div>
           </div>
