@@ -105,7 +105,7 @@ function App() {
     },
     {
       number: 12,
-      name: 'Automated Request System',
+      name: 'Automated Request Tracker',
       image: '/Projects_images/AUTO.png',
       description: 'This project creates a request of each user and will be approve by each specific role, the higher ups will have the final decision if the request is valid for creation by the developers.'
     },
@@ -474,7 +474,7 @@ function App() {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
                 <div className="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg transition-shadow">
                   <div className="text-4xl mb-3 text-accent">📄</div>
-                  <h4 className="font-semibold text-accent mb-2">ADA MOOC Certificate</h4>
+                  <h4 className="font-semibold mb-2" style={{color: '#333333'}}>Arduino IoT Cloud</h4>
                   <a href="/Certificates/ADA MOOC certificate copy 3.pdf" target="_blank" rel="noopener noreferrer" className="inline-block px-4 py-2 bg-accent text-main rounded-lg hover:bg-accent-sky transition-colors">
                     View Certificate
                   </a>
@@ -482,7 +482,7 @@ function App() {
                 
                 <div className="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg transition-shadow">
                   <div className="text-4xl mb-3 text-accent">📄</div>
-                  <h4 className="font-semibold text-accent mb-2">CCNA ITN Certificate</h4>
+                  <h4 className="font-semibold mb-2" style={{color: '#333333'}}>CCNA Introduction to Networks</h4>
                   <a href="/Certificates/CCNAITNUpdated20250728-31-8ilmmq.pdf" target="_blank" rel="noopener noreferrer" className="inline-block px-4 py-2 bg-accent text-main rounded-lg hover:bg-accent-sky transition-colors">
                     View Certificate
                   </a>
@@ -490,7 +490,7 @@ function App() {
                 
                 <div className="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg transition-shadow">
                   <div className="text-4xl mb-3 text-accent">📄</div>
-                  <h4 className="font-semibold text-accent mb-2">Certificate of Attendance</h4>
+                  <h4 className="font-semibold mb-2" style={{color: '#333333'}}>Cubersecurity Awareness</h4>
                   <a href="/Certificates/RIANE MICHAEL D. RIVERA Certificate of Attendance.pdf" target="_blank" rel="noopener noreferrer" className="inline-block px-4 py-2 bg-accent text-main rounded-lg hover:bg-accent-sky transition-colors">
                     View Certificate
                   </a>
@@ -498,7 +498,7 @@ function App() {
                 
                 <div className="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg transition-shadow">
                   <div className="text-4xl mb-3 text-accent">📄</div>
-                  <h4 className="font-semibold text-accent mb-2">Professional Certificate</h4>
+                  <h4 className="font-semibold mb-2" style={{color: '#333333'}}>MST Connect</h4>
                   <a href="/Certificates/RIANE MICHAEL D. RIVERA.pdf" target="_blank" rel="noopener noreferrer" className="inline-block px-4 py-2 bg-accent text-main rounded-lg hover:bg-accent-sky transition-colors">
                     View Certificate
                   </a>
