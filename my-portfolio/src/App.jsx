@@ -3,6 +3,7 @@ import './App.css';
 
 const tabs = [
   { name: 'About me'},
+  { name: 'Certificates'},
   { name: 'Projects'},
   { name: 'Programs used'},
 ];
@@ -31,72 +32,88 @@ function App() {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState(null);
 
+
+
   // Carousel state for Presentation of Output
   const [currentSlide, setCurrentSlide] = useState(0);
   const carouselSlides = [
     {
       number: 1,
+      name: 'Color Game',
       image: '/Projects_images/Color_game.png',
       description: 'This project is a color game that allows you to guess the color of the text. It is a simple game that is easy to play and fun to play.'
     },
     {
       number: 2,
+      name: 'Flight Information System',
       image: '/Projects_images/Flight_Info.png',
       description: 'This is a simple flight information system that allows you to input for your flights and view their information.'
     },
     {
       number: 3,
+      name: 'Student Survivor Game',
       image: '/Projects_images/Student_survivor.png',
       description: 'This project is a student survival game that allows you to survive in a school environment. It is a simple game that is easy to play and fun to play.'
     },
     {
       number: 4,
+      name: 'Burger Ordering System',
       image: '/Projects_images/burger.png',
       description: 'This project is a burger ordering system that allows you to order burgers and view their information.'
     },
     {
       number: 5,
+      name: 'Quick Math Calculator',
       image: '/Projects_images/Quick_math.png',
       description: 'This is a simple math that allows you to solve quick math problems, specifically the tuition fee.'
     },
     {
       number: 6,
+      name: 'Billing System',
       image: '/Projects_images/Billing.png',
       description: 'This project is a billing system that allows how much the total amount of the bill is.'
     },
     {
       number: 7,
+      name: 'Manual Stoplight System',
       image: '/Projects_images/stoplight.png',
       description: 'This project is a stoplight system that allows you to control the traffic lights manually.'
     },
     {
       number: 8,
+      name: 'Automatic Stoplight System V2',
       image: '/Projects_images/stoplightV2.png',
       description: 'This project is a stoplight system that allows you to control the traffic lights automatically via smartphone, this is also the continuation of the previous project.'
     },
     {
       number: 9,
+      name: 'DeLuna Hotel Reservation',
       image: '/Projects_images/DeLuna.png',
       description: 'This project is a hotel reservation system that allows you to reserve a room in a hotel.'
     },
     {
       number: 10,
+      name: 'Campus Navigation System',
       image: '/Projects_images/CampusNavi.png',
       description: 'This project is a campus navigation system that allows you to navigate the campus of the school via wheelchair and it can automaticall detect if the user with locomotor disability has fallen, issues or problems regarding the path.'
     },
     {
       number: 11,
+      name: 'Launchpad Layout',
       image: '/Projects_images/RP.png',
       description: 'This project is a sample layout of the launchpad where you can use CRUD to each additional website you add.'
     },
     {
       number: 12,
+      name: 'Automated Request System',
       image: '/Projects_images/AUTO.png',
       description: 'This project creates a request of each user and will be approve by each specific role, the higher ups will have the final decision if the request is valid for creation by the developers.'
     },
   ];
   const goToPrevSlide = () => setCurrentSlide((prev) => (prev === 0 ? carouselSlides.length - 1 : prev - 1));
   const goToNextSlide = () => setCurrentSlide((prev) => (prev === carouselSlides.length - 1 ? 0 : prev + 1));
+
+
 
   // Certificates modal state
   const [certModalOpen, setCertModalOpen] = useState(false);
@@ -356,6 +373,9 @@ function App() {
                   {tab.name === 'About me' && (
                     <img src="/icons/about_me.png" alt="About me icon" className="w-8 h-8 inline-block mr-1 -ml-2" />
                   )}
+                  {tab.name === 'Certificates' && (
+                    <img src="/icons/about_me.png" alt="Certificates icon" className="w-8 h-8 inline-block mr-1 -ml-2" />
+                  )}
                   {tab.name === 'Projects' && (
                     <img src="/icons/projects.png" alt="Projects icon" className="w-8 h-8 inline-block mr-1 -ml-2" />
                   )}
@@ -423,13 +443,7 @@ function App() {
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-accent mb-8">INFORMATION TECHNOLOGY</h2>
               <p className="text-base sm:text-lg text-main max-w-2xl mx-auto text-center">I am Riane Michael D. Rivera, an Information Technology Student from Mapua Malayan Colleges Laguna. I am a passionate and dedicated student who is always looking for new challenges and opportunities to grow. I am a quick learner and I am always looking for new ways to improve my skills.</p>
             </div>
-            <div className="mt-20 flex flex-col sm:flex-row gap-4 justify-center items-center w-full max-w-xl mx-auto">
-              <button
-                className="w-full sm:w-56 py-3 rounded-full bg-accent text-main font-bold text-lg shadow-md hover:bg-accent-sky hover:text-accent transition-colors duration-200"
-                onClick={() => setCertModalOpen(true)}
-              >
-                View Certificates
-              </button>
+            <div className="mt-20 flex justify-center items-center w-full max-w-xl mx-auto">
               <a
                 href="/docs/CV.pdf"
                 download
@@ -438,47 +452,81 @@ function App() {
                 Download CV
               </a>
             </div>
-            {certModalOpen && (
-              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
-                <div className="bg-main rounded-2xl p-12 max-w-[95vw] w-full relative flex flex-col items-center">
-                  <button
-                    className="absolute top-4 right-4 text-2xl text-accent hover:text-accent-sky focus:outline-none"
-                    onClick={() => setCertModalOpen(false)}
-                    aria-label="Close"
-                  >
-                    &times;
-                  </button>
-                  <h3 className="text-2xl font-bold mb-6 text-main text-center">Certificates</h3>
-                  <div className="flex flex-row gap-8 items-center justify-center w-full pb-2">
-                    <img src="/Certificates/Image.jpg" alt="Certificate 1" className="w-80 h-96 rounded-lg shadow-md object-contain bg-accent p-2 cursor-zoom-in" onClick={() => setZoomedCert('/Certificates/Image.jpg')} />
-                    <img src="/Certificates/image2.png" alt="Certificate 2" className="w-80 h-96 rounded-lg shadow-md object-contain bg-accent p-2 cursor-zoom-in" onClick={() => setZoomedCert('/Certificates/image2.png')} />
-                    <img src="/Certificates/image1.png" alt="Certificate 3" className="w-80 h-96 rounded-lg shadow-md object-contain bg-accent p-2 cursor-zoom-in" onClick={() => setZoomedCert('/Certificates/image1.png')} />
-                  </div>
-                  {zoomedCert && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80" onClick={() => setZoomedCert(null)}>
-                      <img src={zoomedCert} alt="Zoomed certificate" className="max-w-4xl max-h-[90vh] rounded-2xl shadow-2xl object-contain border-4 border-accent bg-white" onClick={e => e.stopPropagation()} />
-                      <button
-                        className="absolute top-8 right-8 text-3xl text-accent hover:text-accent-sky focus:outline-none bg-white bg-opacity-80 rounded-full px-3 py-1"
-                        onClick={() => setZoomedCert(null)}
-                        aria-label="Close zoomed image"
-                      >
-                        &times;
-                      </button>
-                    </div>
-                  )}
+
+          </div>
+        )}
+        {activeTab === 1 && activeFinalReportTab === null && (
+          <div className="w-full flex flex-col items-center justify-center">
+            <h2 className="text-3xl font-bold mb-6 text-main text-center">Certificates</h2>
+            
+            {/* Image Certificates */}
+            <div className="mb-8">
+              <h3 className="text-xl font-semibold mb-4 text-main text-center">Certificate Images</h3>
+              <div className="flex flex-wrap gap-6 items-center justify-center w-full">
+                <img src="/Certificates/Image.jpg" alt="Certificate" className="w-64 h-80 rounded-lg shadow-md object-contain bg-accent p-2 cursor-zoom-in hover:scale-105 transition-transform" onClick={() => setZoomedCert('/Certificates/Image.jpg')} />
+                <img src="/Certificates/comptia-it-fundamentals-itf-certification.1.png" alt="CompTIA IT Fundamentals Certificate" className="w-64 h-80 rounded-lg shadow-md object-contain bg-accent p-2 cursor-zoom-in hover:scale-105 transition-transform" onClick={() => setZoomedCert('/Certificates/comptia-it-fundamentals-itf-certification.1.png')} />
+              </div>
+            </div>
+            
+            {/* PDF Certificates */}
+            <div className="mb-8">
+              <h3 className="text-xl font-semibold mb-4 text-main text-center">Certificate Documents</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                <div className="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg transition-shadow">
+                  <div className="text-4xl mb-3 text-accent">📄</div>
+                  <h4 className="font-semibold text-accent mb-2">ADA MOOC Certificate</h4>
+                  <a href="/Certificates/ADA MOOC certificate copy 3.pdf" target="_blank" rel="noopener noreferrer" className="inline-block px-4 py-2 bg-accent text-main rounded-lg hover:bg-accent-sky transition-colors">
+                    View Certificate
+                  </a>
                 </div>
+                
+                <div className="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg transition-shadow">
+                  <div className="text-4xl mb-3 text-accent">📄</div>
+                  <h4 className="font-semibold text-accent mb-2">CCNA ITN Certificate</h4>
+                  <a href="/Certificates/CCNAITNUpdated20250728-31-8ilmmq.pdf" target="_blank" rel="noopener noreferrer" className="inline-block px-4 py-2 bg-accent text-main rounded-lg hover:bg-accent-sky transition-colors">
+                    View Certificate
+                  </a>
+                </div>
+                
+                <div className="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg transition-shadow">
+                  <div className="text-4xl mb-3 text-accent">📄</div>
+                  <h4 className="font-semibold text-accent mb-2">Certificate of Attendance</h4>
+                  <a href="/Certificates/RIANE MICHAEL D. RIVERA Certificate of Attendance.pdf" target="_blank" rel="noopener noreferrer" className="inline-block px-4 py-2 bg-accent text-main rounded-lg hover:bg-accent-sky transition-colors">
+                    View Certificate
+                  </a>
+                </div>
+                
+                <div className="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg transition-shadow">
+                  <div className="text-4xl mb-3 text-accent">📄</div>
+                  <h4 className="font-semibold text-accent mb-2">Professional Certificate</h4>
+                  <a href="/Certificates/RIANE MICHAEL D. RIVERA.pdf" target="_blank" rel="noopener noreferrer" className="inline-block px-4 py-2 bg-accent text-main rounded-lg hover:bg-accent-sky transition-colors">
+                    View Certificate
+                  </a>
+                </div>
+              </div>
+            </div>
+            {zoomedCert && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80" onClick={() => setZoomedCert(null)}>
+                <img src={zoomedCert} alt="Zoomed certificate" className="max-w-4xl max-h-[90vh] rounded-2xl shadow-2xl object-contain border-4 border-accent bg-white" onClick={e => e.stopPropagation()} />
+                <button
+                  className="absolute top-8 right-8 text-3xl text-accent hover:text-accent-sky focus:outline-none bg-white bg-opacity-80 rounded-full px-3 py-1"
+                  onClick={() => setZoomedCert(null)}
+                  aria-label="Close zoomed image"
+                >
+                  &times;
+                </button>
               </div>
             )}
           </div>
         )}
-        {activeTab === 1 && activeFinalReportTab === null && (
+        {activeTab === 2 && activeFinalReportTab === null && (
           <div className="w-full flex flex-col items-center justify-center">
             <h2 className="text-3xl font-bold mb-6 text-main text-center">Projects</h2>
             <div className="w-full max-w-7xl flex flex-col items-center justify-start gap-16 py-12 px-2">
               {carouselSlides.map((slide, idx) => (
                 <div key={idx} className="w-full max-w-5xl min-h-[440px] flex flex-col md:flex-row items-stretch bg-white rounded-2xl shadow-lg p-0 mb-8 overflow-hidden">
                   <div className="flex-1 flex flex-col justify-center items-start p-4 sm:p-8">
-                    <h3 className="text-xl sm:text-2xl font-bold mb-4 text-accent">Project {slide.number}</h3>
+                    <h3 className="text-xl sm:text-2xl font-bold mb-4 text-accent">{slide.name}</h3>
                     <p className="text-base sm:text-lg text-accent mb-2">{slide.description}</p>
                   </div>
                   <div className="w-full md:w-[500px] flex items-center justify-center bg-accent" style={{minHeight: '320px'}}>
@@ -494,7 +542,7 @@ function App() {
             </div>
           </div>
         )}
-        {activeTab === 2 && activeFinalReportTab === null && (
+        {activeTab === 3 && activeFinalReportTab === null && (
           <div className="w-full flex flex-col items-center justify-center">
             <h2 className="text-3xl font-bold mb-6 text-main text-center">Programs used</h2>
             <ul className="grid grid-cols-2 sm:grid-cols-3 gap-8 text-2xl text-main max-w-3xl mx-auto">
