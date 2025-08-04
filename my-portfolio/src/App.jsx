@@ -173,88 +173,7 @@ function App() {
     sectionRefs.current[idx].current.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  // Starfield background effect
-  function StarfieldBackground() {
-    const canvasRef = React.useRef(null);
 
-    React.useEffect(() => {
-      const canvas = canvasRef.current;
-      const ctx = canvas.getContext('2d');
-      let animationFrameId;
-
-      // Star class
-      class Star {
-        constructor() {
-          this.reset();
-        }
-        reset() {
-          this.x = Math.random() * canvas.width;
-          this.y = Math.random() * canvas.height;
-          this.z = Math.random() * canvas.width;
-          this.radius = Math.random() * 1.2 + 0.2;
-          this.speed = Math.random() * 1.5 + 0.5;
-        }
-        update() {
-          this.z -= this.speed;
-          if (this.z <= 0) this.reset();
-        }
-        draw() {
-          const sx = (this.x - canvas.width / 2) * (canvas.width / this.z) + canvas.width / 2;
-          const sy = (this.y - canvas.height / 2) * (canvas.width / this.z) + canvas.height / 2;
-          const r = this.radius * (canvas.width / this.z);
-          ctx.beginPath();
-          ctx.arc(sx, sy, r, 0, Math.PI * 2);
-          ctx.fillStyle = '#fff';
-          ctx.globalAlpha = 0.8;
-          ctx.shadowColor = '#fff';
-          ctx.shadowBlur = 8;
-          ctx.fill();
-          ctx.globalAlpha = 1;
-          ctx.shadowBlur = 0;
-        }
-      }
-
-      let stars = [];
-      function resize() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        stars = Array.from({ length: 200 }, () => new Star());
-      }
-      resize();
-      window.addEventListener('resize', resize);
-
-      function animate() {
-        ctx.fillStyle = 'rgba(30, 30, 47, 1)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        stars.forEach(star => {
-          star.update();
-          star.draw();
-        });
-        animationFrameId = requestAnimationFrame(animate);
-      }
-      animate();
-
-      return () => {
-        window.removeEventListener('resize', resize);
-        cancelAnimationFrame(animationFrameId);
-      };
-    }, []);
-
-    return (
-      <canvas
-        ref={canvasRef}
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100vw',
-          height: '100vh',
-          zIndex: -1,
-          pointerEvents: 'none',
-        }}
-      />
-    );
-  }
 
   // Header tab definitions (with icons)
   const headerTabs = [
@@ -285,9 +204,8 @@ function App() {
   ];
 
   return (
-    <div className="min-h-screen w-full flex flex-col relative overflow-hidden">
-      {/* Starfield Background */}
-      <StarfieldBackground />
+    <div className="min-h-screen w-full flex flex-col relative overflow-hidden" style={{backgroundColor: 'rgba(30, 30, 47, 1)'}}>
+
       {/* Hamburger menu for mobile */}
       <button
         className="md:hidden fixed top-4 left-4 z-40 bg-accent text-main rounded-full p-2 shadow-lg focus:outline-none"
